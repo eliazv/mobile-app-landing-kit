@@ -12,7 +12,7 @@ import IphoneFrame from "./mobile-kit/IphoneFrame"
 
 const CTA: React.FC = () => {
     return (
-        <section id="cta" className="mt-10 mb-5 lg:my-20">
+        <section id="cta" className="mt-10 mb-16 lg:my-20">
             <div className="relative h-full w-full z-10 mx-auto py-12 sm:py-20">
                 <div className="h-full w-full">
                     <div className="rounded-3xl opacity-95 absolute inset-0 -z-10 h-full w-full bg-[#050a02] bg-[linear-gradient(to_right,#12170f_1px,transparent_1px),linear-gradient(to_bottom,#12170f_1px,transparent_1px)] bg-[size:6rem_4rem]">
@@ -34,7 +34,7 @@ const CTA: React.FC = () => {
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true, amount: 0.4 }}
-                            className="relative flex justify-center mt-12 w-full"
+                            className="relative flex justify-center items-end mt-12 w-full overflow-visible"
                         >
                             {appBannerDetails.screenshots.map((src, index) => (
                                 <motion.div
@@ -54,10 +54,10 @@ const CTA: React.FC = () => {
                                         delay: index > 0 ? 0.8 : 0.5,
                                     }}
                                     className={clsx(
-                                        'h-[26rem]',
+                                        'h-[13rem] sm:h-[16rem] xl:h-[26rem]',
                                         index === 0 && 'relative z-20 block',
-                                        index === 1 && 'absolute origin-bottom-left hidden xl:block',
-                                        index === 2 && 'absolute origin-bottom-right hidden xl:block'
+                                        index === 1 && 'absolute origin-bottom-left block',
+                                        index === 2 && 'absolute origin-bottom-right block'
                                     )}
                                 >
                                     <IphoneFrame src={src} />
