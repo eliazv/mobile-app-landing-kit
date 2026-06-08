@@ -1,10 +1,10 @@
 "use client"
-import Image from "next/image";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion"
 
 import BenefitBullet from "./BenefitBullet";
 import SectionTitle from "../SectionTitle";
+import IphoneFrame from "../mobile-kit/IphoneFrame";
 import { IBenefit } from "@/types";
 
 interface Props {
@@ -88,7 +88,9 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
 
                 <div className={clsx("mt-5 lg:mt-0", { "lg:order-2": imageAtRight })}>
                     <div className={clsx("w-fit flex", { "justify-start": imageAtRight, "justify-end": !imageAtRight })}>
-                        <Image src={imageSrc} alt="title" width="384" height="762" quality={100} className="lg:ml-0" />
+                        <div className="h-[24rem] sm:h-[28rem] lg:h-[32rem]">
+                            <IphoneFrame src={imageSrc} />
+                        </div>
                     </div>
                 </div>
             </motion.div>
