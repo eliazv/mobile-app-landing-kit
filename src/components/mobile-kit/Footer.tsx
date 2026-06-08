@@ -23,7 +23,7 @@ const fadeInScale = {
 };
 
 const Footer: React.FC = () => {
-    const { socials } = footerDetails;
+    const { socials, email } = footerDetails;
 
     return (
         <footer className="relative px-4 pt-0 pb-12" style={{ backgroundColor: NEUTRAL, color: NEUTRAL_CONTENT }}>
@@ -90,6 +90,18 @@ const Footer: React.FC = () => {
                         All rights reserved &copy; {new Date().getFullYear()}
                     </motion.p>
                 </aside>
+
+                {email && (
+                    <motion.div variants={fadeInScale} transition={{ delay: 1.1 }} className="mt-6 text-center md:text-left">
+                        <a
+                            href={`mailto:${email}`}
+                            className="font-bold hover:opacity-50 transition-opacity"
+                            style={{ color: PRIMARY }}
+                        >
+                            {email}
+                        </a>
+                    </motion.div>
+                )}
             </motion.div>
         </footer>
     );

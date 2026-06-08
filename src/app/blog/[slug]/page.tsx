@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 
 import Container from '@/components/Container';
 import TableOfContents from '@/components/mobile-kit/TableOfContents';
+import BlogCTACard from '@/components/BlogCTACard';
 import { siteDetails } from '@/data/siteDetails';
 import { blogPosts, getBlogPostBySlug } from '@/data/blogPosts';
 
@@ -73,6 +74,7 @@ const BlogPostPage: React.FC<Props> = async ({ params }) => {
                             ))}
                         </section>
                     ))}
+                    <BlogCTACard />
                 </article>
 
                 <aside className="hidden lg:block">

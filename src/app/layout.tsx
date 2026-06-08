@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/react';
 import { Source_Sans_3, Manrope } from "next/font/google";
 
 import Header from "@/components/Header";
@@ -51,11 +53,19 @@ export default function RootLayout({
         className={`${manrope.className} ${sourceSans.className} antialiased`}
       >
         {siteDetails.googleAnalyticsId && <GoogleAnalytics gaId={siteDetails.googleAnalyticsId} />}
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <Script
+            src={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL || 'https://cloud.umami.is/script.js'}
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+            strategy="afterInteractive"
+          />
+        )}
         <Header />
         <main>
           {children}
         </main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
