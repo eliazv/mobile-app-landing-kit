@@ -1,4 +1,8 @@
-import Hero from "@/components/Hero";
+// Hero attivo = variante "mobile-app-landing-template" (porting in mobile-kit, con
+// tutti gli effetti: rewards, headline animata, scroll-stack screenshot, wave finale).
+// L'Hero originale di ios-app-landing-page resta in '@/components/Hero', basta
+// cambiare questo import per tornare a usarlo.
+import Hero from "@/components/mobile-kit/Hero";
 import Testimonials from "@/components/Testimonials";
 import Pricing from "@/components/Pricing/Pricing";
 import FAQ from "@/components/FAQ";
