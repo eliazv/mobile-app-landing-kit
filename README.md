@@ -31,9 +31,13 @@ A lightweight, easily configurable, and customizable **Next.js** and **Tailwind 
 - FAQ
 - Statistics
 - CTA
+- Blog (with per-post CTA card)
 - Contact Page
 - Privacy Policy Page
+- Terms of Service Page
 - Footer
+
+> **Note:** This repo carries two parallel variants for some sections (e.g. `Hero`/`mobile-kit/Hero`, `Footer`/`mobile-kit/Footer`). The active ones (imported in `layout.tsx`/`page.tsx`) are the `mobile-kit` variants — see the comments at the top of those files to switch back to the original variant.
 
 ---
 
@@ -44,14 +48,16 @@ A lightweight, easily configurable, and customizable **Next.js** and **Tailwind 
 Before starting, make sure you have the following installed:
 
 - **Node.js**: Version 18 or later
-- **npm**: Version 8 or later (bundled with Node.js)
+- **pnpm**: Version 8 or later (this repo uses `pnpm-lock.yaml`; npm/yarn also work but pnpm is recommended)
 - **Code editor**: [VS Code](https://code.visualstudio.com/) is recommended.
 
 ### Steps
 
-1. **Install dependencies**: Run `npm install`
-2. **Run the development server**: `npm run dev`
+1. **Install dependencies**: Run `pnpm install`
+2. **Run the development server**: `pnpm dev`
 3. **View your project**: Open [localhost:3000](http://localhost:3000)
+
+Other useful commands: `pnpm build` (production build + type-check), `pnpm start` (run production build), `pnpm lint` (ESLint).
 
 ---
 
@@ -115,22 +121,29 @@ Edit these files in `/src/data/` to update your app's content:
 
 | File | What to Edit | Description |
 |------|--------------|-------------|
-| `hero.ts` | Hero section | Main headline and subheading |
+| `heroAlt.ts` | Hero section (active) | Headline, subtitle, rewards badge, screenshots, store links — used by the active `mobile-kit/Hero` |
+| `hero.ts` | Hero section (alt variant) | Used only if you switch back to the original `Hero` component |
 | `benefits.tsx` | Benefits/Features | Your app's key features with icons |
-| `logos.tsx` | Partner logos | Companies/brands using your app |
 | `pricing.ts` | Pricing tiers | Your subscription plans |
 | `testimonials.ts` | User reviews | Customer testimonials |
 | `faq.ts` | FAQ questions | Common questions and answers |
-| `stats.ts` | Statistics | Key metrics (users, downloads, etc.) |
-| `cta.ts` | Call-to-action | Download CTA text and store links |
+| `stats.tsx` | Statistics | Key metrics (users, downloads, etc.) |
+| `cta.ts` | Call-to-action | Download CTA text and store links (used in the homepage CTA, the `BlogCTACard`, and Header buttons) |
+| `appBanner.ts` | App banner screenshots | Screenshot stack shown in the CTA section |
+| `blogPosts.ts` | Blog content | Blog post list, sections, and table-of-contents data |
 
-**Example - Editing Hero Section** (`/src/data/hero.ts`):
+**Example - Editing the active Hero Section** (`/src/data/heroAlt.ts`):
 
 ```typescript
-export const heroDetails = {
-    heading: 'Your App Headline Here',
-    subheading: 'Your compelling subheading that explains what your app does',
-    centerImageSrc: '/images/hero-mockup.webp', // Your hero image
+export const heroAltDetails = {
+    rewards: ["#1 App of the year"],
+    headline: "Your App Headline Here",
+    headlineMark: [3, 6],   // word range to highlight in the headline
+    subtitle: "Your compelling subtitle that explains what your app does",
+    usersDescription: "Loved by 50,000+ users worldwide",
+    screenshots: ["/screenshots/app1.webp", "/screenshots/app2.webp", "/screenshots/app3.webp"],
+    googlePlayLink: "https://play.google.com",
+    appStoreLink: "https://apps.apple.com",
 }
 ```
 
@@ -138,16 +151,18 @@ export const heroDetails = {
 
 **Navigation**: `/src/data/menuItems.ts`
 
-The template includes Features, Contact, and Privacy Policy links. Customize as needed:
+The template includes Features, Blog, and Contact links. Customize as needed:
 
 ```typescript
 export const menuItems: IMenuItem[] = [
-    { text: "Features", url: "#features" },
-    { text: "Pricing", url: "#pricing" },      // Add back if needed
+    { text: "Features", url: "/#features" },
+    { text: "Pricing", url: "/#pricing" },      // Add back if needed
+    { text: "Blog", url: "/blog" },
     { text: "Contact", url: "/contact" },
-    { text: "Privacy Policy", url: "/privacy" }
 ]
 ```
+
+> **Important:** Links that point to a homepage section (an `id` such as `#features`, `#pricing`, `#testimonials`, `#cta`) must use the **`/#section-id`** form (leading slash), not a bare `#section-id`. This makes Next.js navigate to the homepage and scroll to the section even when the user is on another page (blog, contact, etc.). Bare `#section-id` only works while already on the homepage.
 
 **Privacy Policy**: Edit `/src/app/privacy/page.tsx` to add your specific privacy details.
 
@@ -241,54 +256,66 @@ Add Open Graph images:
 
 ### Step 9: Add Analytics (Optional)
 
-Add your Google Analytics ID in `/src/data/siteDetails.ts`:
+The template ships with three optional analytics integrations wired up in `/src/app/layout.tsx`, each a no-op until configured:
+
+**Google Analytics** — add your ID in `/src/data/siteDetails.ts`:
 
 ```typescript
 googleAnalyticsId: 'G-XXXXXXXXXX', // Your GA4 Measurement ID
 ```
+
+**Umami** — set environment variables (see `.env.example`):
+
+```
+NEXT_PUBLIC_UMAMI_WEBSITE_ID=your-website-id
+NEXT_PUBLIC_UMAMI_SCRIPT_URL=https://cloud.umami.is/script.js   # or your self-hosted script URL
+```
+
+**Vercel Analytics** — already mounted via `@vercel/analytics`; just enable Web Analytics for your project in the Vercel dashboard.
 
 ---
 
 ## File Structure Reference
 
 ```
-ios-app-landing-page/
+mobile-app-landing-kit/
 ├── public/
-│   └── images/              # All images go here
-│       ├── hero-mockup.webp
-│       ├── mockup-1.webp
-│       ├── mockup-2.webp
-│       ├── testimonial-*.webp
-│       ├── logo.png
-│       ├── og-image.jpg
-│       └── twitter-image.jpg
+│   ├── images/              # Mockups, avatars, OG/Twitter images, logo
+│   └── screenshots/         # Hero/CTA screenshot stack
 ├── src/
 │   ├── app/
-│   │   ├── page.tsx         # Home page
-│   │   ├── layout.tsx       # Root layout (fonts, metadata)
+│   │   ├── page.tsx         # Home page (assembles all sections)
+│   │   ├── layout.tsx       # Root layout (fonts, metadata, analytics)
 │   │   ├── globals.css      # Colors & global styles
-│   │   ├── contact/
-│   │   │   └── page.tsx     # Contact page
-│   │   └── privacy/
-│   │       └── page.tsx     # Privacy policy page
+│   │   ├── blog/
+│   │   │   ├── page.tsx     # Blog index
+│   │   │   └── [slug]/page.tsx  # Blog post template (+ BlogCTACard)
+│   │   ├── contact/page.tsx
+│   │   ├── privacy/page.tsx
+│   │   └── terms/page.tsx
 │   ├── components/          # Reusable React components
-│   │   ├── Header.tsx       # Navigation
-│   │   ├── Footer.tsx       # Footer
-│   │   ├── Hero.tsx
+│   │   ├── Header.tsx       # Navigation (uses /#section anchors)
+│   │   ├── Footer.tsx       # Original footer variant (not active)
+│   │   ├── Hero.tsx         # Original hero variant (not active)
+│   │   ├── BlogCTACard.tsx  # CTA card appended to every blog post
 │   │   ├── ContactInfo.tsx  # Reusable contact component
+│   │   ├── Benefits/, Pricing/   # Multi-file section components
+│   │   ├── mobile-kit/      # ACTIVE Hero/Footer variants + iPhone frame, app banner, TOC
 │   │   └── ...
 │   └── data/                # ALL CONTENT GOES HERE
-│       ├── siteDetails.ts   # App name, URL, metadata
-│       ├── menuItems.ts     # Navigation links
+│       ├── siteDetails.ts   # App name, URL, metadata, GA id
+│       ├── menuItems.ts     # Navigation links (use /#section for anchors)
 │       ├── footer.ts        # Footer & contact info
-│       ├── hero.ts          # Hero section
+│       ├── hero.ts          # Hero data (original variant)
+│       ├── heroAlt.ts       # Hero data (ACTIVE mobile-kit variant)
 │       ├── benefits.tsx     # Features/benefits
 │       ├── pricing.ts       # Pricing tiers
 │       ├── testimonials.ts  # User reviews
 │       ├── faq.ts           # FAQ items
-│       ├── stats.ts         # Statistics
-│       ├── cta.ts           # Call-to-action
-│       └── logos.tsx        # Partner logos
+│       ├── stats.tsx        # Statistics
+│       ├── cta.ts           # Call-to-action (home CTA, BlogCTACard, header buttons)
+│       ├── appBanner.ts     # CTA screenshot stack
+│       └── blogPosts.ts     # Blog posts & sections
 ```
 
 ---
@@ -343,12 +370,12 @@ For other deployment options, check the [Next.js deployment docs](https://vercel
 - Clear cache and restart dev server
 
 ### Changes not appearing?
-- Restart the dev server (`npm run dev`)
+- Restart the dev server (`pnpm dev`)
 - Clear browser cache (Cmd/Ctrl + Shift + R)
 - Check for TypeScript errors in terminal
 
 ### Build errors?
-- Run `npm run build` to see detailed errors
+- Run `pnpm build` to see detailed errors
 - Check all imports are correct
 - Ensure all data files export properly
 
