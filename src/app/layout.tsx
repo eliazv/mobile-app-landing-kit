@@ -3,7 +3,10 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { Source_Sans_3, Manrope } from "next/font/google";
 
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+// Footer di default = variante "mobile-app-landing-template" (porting in mobile-kit).
+// Quello originale di ios-app-landing-page resta in '@/components/Footer', basta
+// cambiare questo import per tornare a usarlo.
+import Footer from "@/components/mobile-kit/Footer";
 import { siteDetails } from '@/data/siteDetails';
 
 import "./globals.css";

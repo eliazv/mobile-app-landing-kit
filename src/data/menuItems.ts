@@ -6,6 +6,10 @@ export const menuItems: IMenuItem[] = [
         url: "#features"
     },
     {
+        text: "Blog",
+        url: "/blog"
+    },
+    {
         text: "Contact",
         url: "/contact"
     },
