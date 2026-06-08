@@ -1,5 +1,5 @@
 export const heroAltDetails = {
-    rewards: ['#1 App of the year', 'Featured on Product Hunt'],
+    rewards: ['#1 App of the year'],
     headline: 'The mobile app that helps you stay in control',
     // [start, end] indici di parola da evidenziare nella headline
     headlineMark: [3, 6] as [number, number],

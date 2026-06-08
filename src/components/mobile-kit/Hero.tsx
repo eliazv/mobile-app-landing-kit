@@ -4,7 +4,6 @@ import { useRef } from 'react';
 import { motion, useScroll } from 'framer-motion';
 
 import SingleScreenshot from './SingleScreenshot';
-import SVGWave from './SVGWave';
 import AppStoreButton from '../AppStoreButton';
 import PlayStoreButton from '../PlayStoreButton';
 import { heroAltDetails } from '@/data/heroAlt';
@@ -85,7 +84,7 @@ const Hero: React.FC = () => {
                                 initial={{ opacity: 0, y: '100%' }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.6 }}
-                                className="list-none flex gap-4 m-0 p-0 mt-4"
+                                className="list-none flex flex-col sm:flex-row gap-1.5 sm:gap-4 m-0 p-0 mt-4 items-center md:items-start [&_button]:!mt-0"
                             >
                                 {googlePlayLink && (
                                     <li className="m-0 p-0">
@@ -157,8 +156,6 @@ const Hero: React.FC = () => {
                     </div>
                 </div>
             </div>
-
-            <SVGWave className="absolute -bottom-1 left-0 right-0 -z-10" />
         </section>
     );
 };

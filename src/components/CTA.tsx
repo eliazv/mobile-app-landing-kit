@@ -1,7 +1,14 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import clsx from 'clsx';
+
 import { ctaDetails } from "@/data/cta"
+import { appBannerDetails } from "@/data/appBanner"
 
 import AppStoreButton from "./AppStoreButton"
 import PlayStoreButton from "./PlayStoreButton"
+import IphoneFrame from "./mobile-kit/IphoneFrame"
 
 const CTA: React.FC = () => {
     return (
@@ -21,6 +28,42 @@ const CTA: React.FC = () => {
                         <AppStoreButton />
                         <PlayStoreButton />
                         </div>
+
+                        {/* Stack di screenshot ruotati, stesso comportamento dell'AppBanner di mobile-app-landing-template */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.4 }}
+                            className="relative flex justify-center mt-12 w-full"
+                        >
+                            {appBannerDetails.screenshots.map((src, index) => (
+                                <motion.div
+                                    key={index}
+                                    variants={{
+                                        hidden: { scale: index > 0 ? 0.9 : 1, opacity: 0, rotate: 0 },
+                                        visible: {
+                                            scale: index > 0 ? 0.9 : 1,
+                                            opacity: 1,
+                                            rotate: index === 0 ? 0 : index === 1 ? -30 : 30,
+                                        },
+                                    }}
+                                    transition={{
+                                        stiffness: 150,
+                                        mass: 0.5,
+                                        type: 'spring',
+                                        delay: index > 0 ? 0.8 : 0.5,
+                                    }}
+                                    className={clsx(
+                                        'h-[26rem]',
+                                        index === 0 && 'relative z-20 block',
+                                        index === 1 && 'absolute origin-bottom-left hidden xl:block',
+                                        index === 2 && 'absolute origin-bottom-right hidden xl:block'
+                                    )}
+                                >
+                                    <IphoneFrame src={src} />
+                                </motion.div>
+                            ))}
+                        </motion.div>
                     </div>
                 </div>
             </div>
