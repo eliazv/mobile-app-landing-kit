@@ -1,7 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { FaGithub } from 'react-icons/fa';
 
 import AppStoreButton from './AppStoreButton';
 import PlayStoreButton from './PlayStoreButton';
@@ -28,30 +26,6 @@ const Hero: React.FC = () => {
                 <div className="mt-6 flex flex-col sm:flex-row items-center sm:gap-4 w-fit mx-auto">
                     <AppStoreButton dark />
                     <PlayStoreButton dark />
-                </div>
-                <div className="mt-3">
-                    <Link
-                        href="https://github.com/proSamik/lighteweight-starter-kit-ios-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <button
-                            type="button"
-                            className="inline-flex items-center justify-center min-w-[205px] px-6 h-14 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
-                        >
-                            <div className="mr-3">
-                                <FaGithub className="w-[30px] h-[30px]" />
-                            </div>
-                            <div>
-                                <div className="text-xs">
-                                    Get Code from
-                                </div>
-                                <div className="-mt-1 font-sans text-xl font-semibold">
-                                    GitHub
-                                </div>
-                            </div>
-                        </button>
-                    </Link>
                 </div>
                 <Image
                     src={heroDetails.centerImageSrc}
